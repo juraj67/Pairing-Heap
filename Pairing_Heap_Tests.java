@@ -1,5 +1,4 @@
-package pairing_heap;
-
+import pairing_heap.*;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Objects;
@@ -172,10 +171,11 @@ public class Pairing_Heap_Tests {
         Collections.sort(array_list); 
         Collections.sort(array_heap); 
         
+	System.out.println("\n\nPairing heap items:");
         for (Integer integer : array_heap) {
             System.out.print(integer + ", ");
         }
-        System.out.println("");
+        System.out.println("\n\nArrayList items:");
         for (Integer integer : array_list) {
             System.out.print(integer + ", ");
         }
