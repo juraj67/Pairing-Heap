@@ -1,2 +1,3 @@
 # Pairing-Heap
-The pairing heap is a implementation of the priority queue, heap is represented in binary form.
+The pairing heap is an implementation of the priority queue, the heap is represented in binary form.
+
