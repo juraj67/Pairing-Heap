@@ -31,15 +31,23 @@ public class Pairing_Heap <T extends Comparable<T>>  {
      * @param heap_toCopy 
      */
     public Pairing_Heap(Pairing_Heap<T> heap_toCopy) {
-        this.root = heap_toCopy.peek();
+        this.root = heap_toCopy.getRoot();
     }
         
     /**
      * Method returns the root of the pairing heap
      * @return 
      */
-    public Heap_Item<T> peek() {
-        return root;
+    public Heap_Item<T> getRoot() {
+        return this.root;
+    }
+    
+    /**
+     * Method returns the root data
+     * @return 
+     */
+    public T peek() {
+        return this.root.getData();
     }
     
     /**
@@ -48,11 +56,11 @@ public class Pairing_Heap <T extends Comparable<T>>  {
      * @return 
      */
     public Heap_Item<T> push(Heap_Item<T> to_insert) {
-        if(root == null) {
-            root = to_insert;
+        if(this.root == null) {
+            this.root = to_insert;
             return this.root;
         } else {
-            root = pair(this, new Pairing_Heap(to_insert)).peek();
+            this.root = pair(this, new Pairing_Heap(to_insert)).getRoot();
             return to_insert;
         }
     }
@@ -70,22 +78,22 @@ public class Pairing_Heap <T extends Comparable<T>>  {
      * @return 
      */
     private Heap_Item<T> pop_heap_item() {
-        if(root == null) {                                  //if the heap is empty
+        if(this.root == null) {                                  //if the heap is empty
             return null;
         } else {
-            Heap_Item<T> old_root = root;
-            root = null;
+            Heap_Item<T> old_root = this.root;
+            this.root = null;
             if(!old_root.hasLeftSon()) {                    //if the heap contains only the root
                 return old_root;
             } else {                                        //if the heap contains more items
                 if(!old_root.getLeftSon().hasRightSon()) {  //if the heap consists of one heap 
                     old_root.getLeftSon().setAncestor(null);
-                    root = old_root.getLeftSon();
+                    this.root = old_root.getLeftSon();
                     return old_root;
                 } else {                                    //if the heap consists of multiple heaps
                     Heap_Item<T> help_item = old_root.getLeftSon();
                     help_item.setAncestor(null);
-                    root = multi_heaps_merge(help_item).peek(); //returns the heap and sets root
+                    this.root = multi_heaps_merge(help_item).getRoot(); //returns the heap and sets root
                     return old_root;
                 }
             }
@@ -131,36 +139,36 @@ public class Pairing_Heap <T extends Comparable<T>>  {
      * @return
      */
     private Pairing_Heap<T> pair(Pairing_Heap<T> paHeap1, Pairing_Heap<T> paHeap2) {
-        if(paHeap1.peek() == null) {
+        if(paHeap1.getRoot() == null) {
             return paHeap2;
         } 
-        if(paHeap2.peek() == null) {
+        if(paHeap2.getRoot() == null) {
             return paHeap1;
         } 
-        if(paHeap1.peek().getData().compareTo(paHeap2.peek().getData()) <= 0) { //if 2 has a worse priority then 1
-            if(paHeap1.peek().hasLeftSon()) {
-                Heap_Item<T> help_item = paHeap1.peek().getLeftSon();
-                paHeap1.peek().setLeftSon(paHeap2.peek());
-                paHeap2.peek().setAncestor(paHeap1.peek());
-                paHeap2.peek().setRightSon(help_item);
-                help_item.setAncestor(paHeap2.peek());
+        if(paHeap1.getRoot().getData().compareTo(paHeap2.getRoot().getData()) <= 0) { //if 2 has a worse priority then 1
+            if(paHeap1.getRoot().hasLeftSon()) {
+                Heap_Item<T> help_item = paHeap1.getRoot().getLeftSon();
+                paHeap1.getRoot().setLeftSon(paHeap2.getRoot());
+                paHeap2.getRoot().setAncestor(paHeap1.getRoot());
+                paHeap2.getRoot().setRightSon(help_item);
+                help_item.setAncestor(paHeap2.getRoot());
                 return paHeap1;
             } else {
-                paHeap1.peek().setLeftSon(paHeap2.peek());
-                paHeap2.peek().setAncestor(paHeap1.peek());
+                paHeap1.getRoot().setLeftSon(paHeap2.getRoot());
+                paHeap2.getRoot().setAncestor(paHeap1.getRoot());
                 return paHeap1;
             }
         } else {                                                                //if 2 has a better priority then 1
-            if(paHeap2.peek().hasLeftSon()) {
-                Heap_Item<T> help_item = paHeap2.peek().getLeftSon();
-                paHeap2.peek().setLeftSon(paHeap1.peek());
-                paHeap1.peek().setAncestor(paHeap2.peek());
-                paHeap1.peek().setRightSon(help_item);
-                help_item.setAncestor(paHeap1.peek());
+            if(paHeap2.getRoot().hasLeftSon()) {
+                Heap_Item<T> help_item = paHeap2.getRoot().getLeftSon();
+                paHeap2.getRoot().setLeftSon(paHeap1.getRoot());
+                paHeap1.getRoot().setAncestor(paHeap2.getRoot());
+                paHeap1.getRoot().setRightSon(help_item);
+                help_item.setAncestor(paHeap1.getRoot());
                 return paHeap2;
             } else {
-                paHeap2.peek().setLeftSon(paHeap1.peek());
-                paHeap1.peek().setAncestor(paHeap2.peek());
+                paHeap2.getRoot().setLeftSon(paHeap1.getRoot());
+                paHeap1.getRoot().setAncestor(paHeap2.getRoot());
                 return paHeap2;
             }
         }
@@ -176,9 +184,9 @@ public class Pairing_Heap <T extends Comparable<T>>  {
             paNode.getAncestor().replaceChild(paNode.getData(), null);                  //removes item from heap
             paNode.setAncestor(null);
             if(paNode.hasRightSon()) { 
-                paNode = this.multi_heaps_merge(paNode).peek();
+                paNode = this.multi_heaps_merge(paNode).getRoot();
             }
-            this.root = this.pair(this, new Pairing_Heap(paNode)).peek();               //pairing with root 
+            this.root = this.pair(this, new Pairing_Heap(paNode)).getRoot();               //pairing with root 
             return;
         }
         //decreasing - checking if the paNode has a worse priority then his sons in multi-way form
@@ -200,14 +208,14 @@ public class Pairing_Heap <T extends Comparable<T>>  {
                     merged_heap = this.pair(merged_heap, new Pairing_Heap(paNode));     //pairs and sets new root
                     //puts a new subtree with a new root at the originally location 
                     if(anchestor_of_node != null) {                                     //if the item was root
-                        anchestor_of_node.replaceChild(paNode.getData(),merged_heap.peek());
-                        merged_heap.peek().setRightSon(right_sonof_node);                 
-                        merged_heap.peek().setAncestor(anchestor_of_node);
+                        anchestor_of_node.replaceChild(paNode.getData(),merged_heap.getRoot());
+                        merged_heap.getRoot().setRightSon(right_sonof_node);                 
+                        merged_heap.getRoot().setAncestor(anchestor_of_node);
                         if(right_sonof_node != null) {                                  //if the item has right son
-                            right_sonof_node.setAncestor(merged_heap.peek());
+                            right_sonof_node.setAncestor(merged_heap.getRoot());
                         }
                     } else {
-                        this.root = merged_heap.peek();
+                        this.root = merged_heap.getRoot();
                     }
                     break;
                 }

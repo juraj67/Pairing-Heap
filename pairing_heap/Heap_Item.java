@@ -59,9 +59,9 @@ public class Heap_Item <T extends Comparable<T>> {
     public Heap_Item<T> getMultiWayAncestor() {
         if(this.ancestor != null) {
             if(this.ancestor.itIsLeftSon(this)) {
-                return ancestor;
+                return this.ancestor;
             } else {
-                Heap_Item<T> node = ancestor;
+                Heap_Item<T> node = this.ancestor;
                 while(!node.getAncestor().itIsLeftSon(node)) {
                     node = node.getAncestor();
                 }
@@ -76,7 +76,7 @@ public class Heap_Item <T extends Comparable<T>> {
      * @return 
      */
     public Heap_Item<T> getLeftSon() {
-        return leftSon;
+        return this.leftSon;
     }
     
     /**
@@ -84,7 +84,7 @@ public class Heap_Item <T extends Comparable<T>> {
      * @return 
      */
     public Heap_Item<T> getRightSon() {
-        return rightSon;
+        return this.rightSon;
     }
     
     /**
@@ -92,7 +92,7 @@ public class Heap_Item <T extends Comparable<T>> {
      * @return 
      */
     public T getData() {
-        return (data == null ? null : data);
+        return (this.data == null ? null : this.data);
     }
     
     /**
