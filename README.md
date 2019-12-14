@@ -1,5 +1,7 @@
 # Pairing-Heap
-The pairing heap is an implementation of the priority queue, the heap is represented in binary form.
+The pairing heap is an implementation of the priority queue, the heap is represented in binary form. 
+
+<img src="https://github.com/juraj67/Pairing-Heap/blob/master/images/main%20diagram.jpg" width="35%" height="35%">
 
 # How to use it
 Copy the package "pairing_heap" into your project, import it and create new Pairing_Heap object:
@@ -8,7 +10,7 @@ import pairing_heap.*;
 
 Pairing_Heap<Integer> pairing_heap = new Pairing_Heap<>();
 ```
-# Example
+**Example**
 ```java
 import pairing_heap.*;
 
@@ -30,4 +32,5 @@ public class TestClass {
   }
 }
 ```
-
+# Author
+**Juraj Pavlech, 2019**
